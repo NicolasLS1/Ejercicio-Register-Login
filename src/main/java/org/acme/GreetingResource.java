@@ -12,9 +12,9 @@ import java.util.List;
 
 @Path("/app")
 public class GreetingResource {
-    
+
     //Clase Usuario
-    private static class User {
+    public class User {
         private String username;
         private String password;
         public User(String username, String password) {
@@ -32,7 +32,7 @@ public class GreetingResource {
     }
 
     //Clase usuario Request
-    private static class UserRequest {
+    public class UserRequest {
         private String username;
         private String password;
         private String confirmPassword;
@@ -51,11 +51,11 @@ public class GreetingResource {
     }
 
     //Lista de usuarios
-    public static List<User> Usuarios = new ArrayList<>();
+    public List<User> Usuarios = new ArrayList<>();
 
     //Funcion para validar nombre de usuario
 
-    private boolean ValidaUsername(String username) {
+    public boolean ValidaUsername(String username) {
         for (int i=0; i<Usuarios.size();i++) {
             if (Usuarios.get(i).getUsername().equals(username)) {
                 return true;
@@ -66,10 +66,10 @@ public class GreetingResource {
 
     //clase para Devolver Usuario Logeado
 
-    public static class UserLogeado{
+    public class UserLogeado{
         private String username;
         private String userStatus;
-        
+
         public UserLogeado(String user){
             this.username = user;
             this.userStatus = "LoggedIn";
@@ -85,17 +85,16 @@ public class GreetingResource {
     }
 
     //FuncionParacomparar contraseña
-    private boolean ValidaContraseña(String password, String confirmPassword) {
+    public boolean ValidaContraseña(String password, String confirmPassword) {
         return password.equals(confirmPassword);
     }
 
     //Servicio para registrar
     @Path("/register")
-    @POST 
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response Registrar(UserRequest nuevoUsuario){
-
+        System.out.println(nuevoUsuario.getUsername());
         //String username = nuevoUsuario.getUsername();
         //String pass = nuevoUsuario.getPassword();
         //String Confirm = nuevoUsuario.getConfirmPassword();
@@ -107,7 +106,7 @@ public class GreetingResource {
             return  Response.status(Response.Status.BAD_REQUEST).
                     entity("{\"error\": \"El nombre de usuario se encuentra en uso.\"}").build();
         }
-        
+
         //validar contraseñas
 
         if(!ValidaContraseña(nuevoUsuario.getPassword(),nuevoUsuario.getConfirmPassword())){
@@ -119,17 +118,17 @@ public class GreetingResource {
 
         User user = new User(nuevoUsuario.getUsername(), nuevoUsuario.getPassword());
         Usuarios.add(user);
-        return Response.ok(Usuarios).build(); 
+        return Response.ok(Usuarios).build();
     }
 
     //Servicio de Login
     @Path("/login")
-    @POST 
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
 
     public Response Login(UserRequest userRequest){
-        
+
         String username = userRequest.getUsername();
         String pass = userRequest.getPassword();
 
@@ -139,13 +138,13 @@ public class GreetingResource {
             if(Usuarios.get(i).getUsername() == username && Usuarios.get(i).getPassword() == pass){
                 return Response.ok(new UserLogeado(username)).build();
             }
-            
+
             //Invalidas
         }
-        
+
         return Response.status(Response.Status.UNAUTHORIZED)
-        .entity("{\"error\": \"Credenciales inválidas.\"}").build();
-        
+                .entity("{\"error\": \"Credenciales inválidas.\"}").build();
+
     }
 
 }
