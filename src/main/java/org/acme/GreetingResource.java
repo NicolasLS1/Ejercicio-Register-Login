@@ -85,7 +85,7 @@ public class GreetingResource {
     }
 
     //FuncionParacomparar contraseña
-    private boolean arePasswordsMatching(String password, String confirmPassword) {
+    private boolean ValidaContraseña(String password, String confirmPassword) {
         return password.equals(confirmPassword);
     }
 
@@ -110,7 +110,7 @@ public class GreetingResource {
         
         //validar contraseñas
 
-        if(!arePasswordsMatching(nuevoUsuario.getPassword(),nuevoUsuario.getConfirmPassword())){
+        if(!ValidaContraseña(nuevoUsuario.getPassword(),nuevoUsuario.getConfirmPassword())){
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("{\"error\": \"Las contraseñas no coinciden.\"}").build();
         }
