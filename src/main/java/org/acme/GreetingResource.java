@@ -10,51 +10,68 @@ import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+class UserLogeado {
+    private String username;
+    private String userStatus;
+
+    public UserLogeado(String user) {
+        this.username = user;
+        this.userStatus = "LoggedIn";
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getUserStatus() {
+        return userStatus;
+    }
+}
+
+class User {
+    private String username;
+    private String password;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+}
+
+// Clase usuario Request
+class UserRequest {
+    private String username;
+    private String password;
+    private String confirmPassword;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+}
+
 @Path("/app")
 public class GreetingResource {
-
-    //Clase Usuario
-    public class User {
-        private String username;
-        private String password;
-        public User(String username, String password) {
-            this.username = username;
-            this.password = password;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-    }
-
-    //Clase usuario Request
-    public class UserRequest {
-        private String username;
-        private String password;
-        private String confirmPassword;
-
-        public String getUsername() {
-            return username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public String getConfirmPassword() {
-            return confirmPassword;
-        }
-    }
 
     //Lista de usuarios
     public List<User> Usuarios = new ArrayList<>();
 
-    //Funcion para validar nombre de usuario
-
+    //Funcion para validar nombre de usuari
     public boolean ValidaUsername(String username) {
         for (int i=0; i<Usuarios.size();i++) {
             if (Usuarios.get(i).getUsername().equals(username)) {
@@ -62,26 +79,6 @@ public class GreetingResource {
             }
         }
         return false;
-    }
-
-    //clase para Devolver Usuario Logeado
-
-    public class UserLogeado{
-        private String username;
-        private String userStatus;
-
-        public UserLogeado(String user){
-            this.username = user;
-            this.userStatus = "LoggedIn";
-        }
-
-        public String getUsername(){
-            return username;
-        }
-
-        public String getUserStatus(){
-            return userStatus;
-        }
     }
 
     //FuncionParacomparar contraseña
@@ -94,7 +91,6 @@ public class GreetingResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response Registrar(UserRequest nuevoUsuario){
-        System.out.println(nuevoUsuario.getUsername());
         //String username = nuevoUsuario.getUsername();
         //String pass = nuevoUsuario.getPassword();
         //String Confirm = nuevoUsuario.getConfirmPassword();
